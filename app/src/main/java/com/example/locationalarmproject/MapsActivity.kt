@@ -174,7 +174,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         }
     }
 
-    fun onMapReady(googleMap: GoogleMap) {
+    override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
