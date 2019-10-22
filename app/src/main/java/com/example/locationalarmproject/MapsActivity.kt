@@ -19,18 +19,24 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener{
+class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener {
 
     private var lastLatLng: LatLng? = null
     private var pinList: Map<Int, Map<String, Any>> = mapOf()
     var TAG = "hoge"
+    private var pincount: Int = 0
+    private val MAX_PINCOUNT: Int = 1000
 
     // lateinit: late initialize to avoid checking null
     private lateinit var locationManager: LocationManager
@@ -107,7 +113,8 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
                 .radius(radius)          // 半径 (メートル単位)
                 .strokeColor(Color.BLUE) // 線の色
                 .strokeWidth(2f)         // 線の太さ
-                .fillColor(0x400080ff)   // 円の塗りつぶし色
+                .fillColor(0x400080ff)
+                .clickable(true)// 円の塗りつぶし色
         )
 
         // 一旦例として東京駅と大阪駅の緯度と経度を示す
@@ -116,6 +123,18 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
         // 距離をメートル単位で返す
 //        val distance = SphericalUtil.computeDistanceBetween(latLngA, latLngB)
+
+
+         var zoomSize = 14
+         mMap.setOnMapClickListener( GoogleMap.OnMapClickListener() {
+              fun onMapClick(tapLocation: LatLng) {
+                // tapされた位置の緯度経度
+                val location = LatLng(tapLocation.latitude, tapLocation.longitude)
+                val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude)
+                mMap.addMarker(MarkerOptions().position(location).title(str))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomSize.toFloat()))
+            }
+        });
 
     }
 
@@ -221,61 +240,4 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
     }
 
-//    /**
-//     * ピン差しロジックを実装しているメソッド
-//     */
-//    private fun putPin(location: Location) {
-//
-//        val sdf = SimpleDateFormat("yyyy/MM/dd")
-//        val latLng = LatLng(location.latitude, location.longitude)
-//        val accuracy = location.accuracy.toString()
-//        val accColor: Float = if (location.accuracy < 100.0F ) 200.0F - location.accuracy * 2 else 0.0F
-//
-//
-//        // put pin
-//        mMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(accColor)).title("$dateStr / acc: $accuracy m"))
-//
-//        // draw line between now and last LatLng
-//        if ( lastLatLng != null ) {
-//            val straight = PolylineOptions()
-//            straight.color(Color.BLUE)
-//            straight.width(6F)
-//            straight.add(lastLatLng)
-//            straight.add(latLng)
-//
-//            mMap.addPolyline(straight)
-//        }
-//        lastLatLng = latLng
-//
-//        // move camera
-//        val camerapos = CameraPosition.Builder()
-//        val camerazoom = if (pincount == 0) 18.0F else mMap.cameraPosition.zoom
-//        camerapos.target(latLng)
-//        camerapos.zoom(camerazoom)
-//        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(camerapos.build()))
-//
-//        // add pin count
-//        pincount++
-//        val pincountView: TextView = findViewById(R.id.txt_pincount)
-//        pincountView.text = Integer.toString(pincount)
-//
-//        // add pin to list
-//        pinList += pincount to mapOf(
-//            "date" to dateStr,
-//            "latitude" to location.latitude,
-//            "longitude" to location.longitude,
-//            "accuracy" to location.accuracy
-//        )
-//
-//        if ( pincount == MAX_PINCOUNT ) {
-//            showToast("pincount has reached maximum.")
-//            stopLocationUpdates()
-//        }
-//    }
-//
-//
-//
-//    private fun showToast( msg: String, length: Int = Toast.LENGTH_SHORT ) {
-//        Toast.makeText(this, msg, length).show()
-//    }
 }
