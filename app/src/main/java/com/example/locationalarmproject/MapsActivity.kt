@@ -27,9 +27,19 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 //import com.google.maps.android.SphericalUtil
+import com.google.android.gms.maps.model.*
+import com.google.maps.android.SphericalUtil
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
+
+//    private var lastLatLng: LatLng? = null
+//    private var pinList: Map<Int, Map<String, Any>> = mapOf()
+
 
     // lateinit: late initialize to avoid checking null
     private lateinit var locationManager: LocationManager
@@ -39,7 +49,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-//        Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -138,7 +148,6 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         // 距離をメートル単位で返す
 //        val distance = SphericalUtil.computeDistanceBetween(latLngA, latLngB)
 
-
     }
 
     private fun locationStart() {
@@ -172,6 +181,8 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
             1000,
             50f,
             this)
+
+
 
     }
 
@@ -234,4 +245,60 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
     override fun onProviderDisabled(provider: String) {
 
     }
+//
+//    /**
+//     * ピン差しロジックを実装しているメソッド
+//     */
+//    private fun putPin(location: Location) {
+//
+//        val sdf = SimpleDateFormat("yyyy/MM/dd")
+//        val latLng = LatLng(location.latitude, location.longitude)
+//        val accuracy = location.accuracy.toString()
+//        val accColor: Float = if (location.accuracy < 100.0F ) 200.0F - location.accuracy * 2 else 0.0F
+//
+//
+//        // put pin
+//        mMap.addMarker(MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(accColor)).title("$dateStr / acc: $accuracy m"))
+//
+//        // draw line between now and last LatLng
+//        if ( lastLatLng != null ) {
+//            val straight = PolylineOptions()
+//            straight.color(Color.BLUE)
+//            straight.width(6F)
+//            straight.add(lastLatLng)
+//            straight.add(latLng)
+//
+//            mMap.addPolyline(straight)
+//        }
+//        lastLatLng = latLng
+//
+//        // move camera
+//        val camerapos = CameraPosition.Builder()
+//        val camerazoom = if (pincount == 0) 18.0F else mMap.cameraPosition.zoom
+//        camerapos.target(latLng)
+//        camerapos.zoom(camerazoom)
+//        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(camerapos.build()))
+//
+//        // add pin count
+//        pincount++
+//        val pincountView: TextView = findViewById(R.id.txt_pincount)
+//        pincountView.text = Integer.toString(pincount)
+//
+//        // add pin to list
+//        pinList += pincount to mapOf(
+//            "date" to dateStr,
+//            "latitude" to location.latitude,
+//            "longitude" to location.longitude,
+//            "accuracy" to location.accuracy
+//        )
+//
+//        if ( pincount == MAX_PINCOUNT ) {
+//            showToast("pincount has reached maximum.")
+//            stopLocationUpdates()
+//        }
+//    }
+//
+//    private fun showToast( msg: String, length: Int = Toast.LENGTH_SHORT ) {
+//        Toast.makeText(this, msg, length).show()
+//    }
 }
