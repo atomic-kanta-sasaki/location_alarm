@@ -1,33 +1,32 @@
 package com.example.locationalarmproject
 
+
 import android.Manifest
-import android.os.Bundle
-import android.location.LocationManager
-import android.content.pm.PackageManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
-import android.widget.TextView
+import android.location.LocationManager
 import android.location.LocationProvider
+import android.os.Bundle
 import android.provider.Settings
-import android.widget.Toast
 import android.util.Log
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.maps.GoogleMap
-
-
-import android.graphics.Color
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.maps.android.SphericalUtil
+//import com.google.maps.android.SphericalUtil
 
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
@@ -78,17 +77,17 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         // ピンチイン、ピンチアウトでズーム
         googleMap.uiSettings.isZoomGesturesEnabled = true
 
-        // 回転
-        googleMap.uiSettings.isRotateGesturesEnabled = true
-
-        // ツールバー
-        googleMap.uiSettings.isZoomGesturesEnabled = true
-
-        // 2本指でスワイプで視点を傾けることができます。
-        googleMap.uiSettings.isMapToolbarEnabled = true
-
-        // コンパスの表示
-        googleMap.uiSettings.isTiltGesturesEnabled = true
+//        // 回転
+//        googleMap.uiSettings.isRotateGesturesEnabled = true
+//
+//        // ツールバー
+//        googleMap.uiSettings.isZoomGesturesEnabled = true
+//
+//        // 2本指でスワイプで視点を傾けることができます。
+//        googleMap.uiSettings.isMapToolbarEnabled = true
+//
+//        // コンパスの表示
+//        googleMap.uiSettings.isTiltGesturesEnabled = true
 
         // 現在地の表示
         googleMap.uiSettings.isCompassEnabled = true
@@ -101,7 +100,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         googleMap.isMyLocationEnabled = true
         val zoomValue = 14.0f // 1.0f 〜 21.0f を指定
         var lastLatLng: LatLng? = null
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, zoomValue))
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, zoomValue))
 
         // マーカーを表示させる.
         googleMap.addMarker(
@@ -131,7 +130,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         val latLngB = LatLng(34.7331, 135.5002)
 
         // 距離をメートル単位で返す
-        val distance = SphericalUtil.computeDistanceBetween(latLngA, latLngB)
+//        val distance = SphericalUtil.computeDistanceBetween(latLngA, latLngB)
 
 
     }
