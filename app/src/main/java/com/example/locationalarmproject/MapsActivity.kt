@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+//import com.google.maps.android.SphericalUtil
 
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
@@ -75,7 +76,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
 
         // ピンチイン、ピンチアウトでズーム
         googleMap.uiSettings.isZoomGesturesEnabled = true
-//
+
 //        // 回転
 //        googleMap.uiSettings.isRotateGesturesEnabled = true
 //
@@ -87,7 +88,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
 //
 //        // コンパスの表示
 //        googleMap.uiSettings.isTiltGesturesEnabled = true
-//
+
         // 現在地の表示
         googleMap.uiSettings.isCompassEnabled = true
 
@@ -99,6 +100,12 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
 //        googleMap.isMyLocationEnabled = true
 //        val zoomValue = 14.0f // 1.0f 〜 21.0f を指定
 //        var lastLatLng: LatLng? = null
+
+
+        // 自分の現在地に移動するアイコンの追加
+        googleMap.isMyLocationEnabled = true
+        val zoomValue = 14.0f // 1.0f 〜 21.0f を指定
+        var lastLatLng: LatLng? = null
 //        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, zoomValue))
 
         // マーカーを表示させる.
