@@ -1,6 +1,7 @@
 package com.example.locationalarmproject
 
 
+//import com.google.maps.android.SphericalUtil
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -18,28 +19,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CircleOptions
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-//import com.google.maps.android.SphericalUtil
 import com.google.android.gms.maps.model.*
-import com.google.maps.android.SphericalUtil
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 
+class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener{
 
-class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
-
-//    private var lastLatLng: LatLng? = null
-//    private var pinList: Map<Int, Map<String, Any>> = mapOf()
-
+    private var lastLatLng: LatLng? = null
+    private var pinList: Map<Int, Map<String, Any>> = mapOf()
+    var TAG = "hoge"
 
     // lateinit: late initialize to avoid checking null
     private lateinit var locationManager: LocationManager
@@ -77,9 +68,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        val tokyoStation = LatLng(35.681236, 139.767125) // 東京駅
 
         // スワイプで地図を平行移動
         googleMap.uiSettings.isScrollGesturesEnabled = true
@@ -87,30 +76,11 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         // ピンチイン、ピンチアウトでズーム
         googleMap.uiSettings.isZoomGesturesEnabled = true
 
-//        // 回転
-//        googleMap.uiSettings.isRotateGesturesEnabled = true
-//
-//        // ツールバー
-//        googleMap.uiSettings.isZoomGesturesEnabled = true
-//
-//        // 2本指でスワイプで視点を傾けることができます。
-//        googleMap.uiSettings.isMapToolbarEnabled = true
-//
-//        // コンパスの表示
-//        googleMap.uiSettings.isTiltGesturesEnabled = true
-
         // 現在地の表示
         googleMap.uiSettings.isCompassEnabled = true
 
         //現在位置の取得を許可
         googleMap.setMyLocationEnabled(true);
-//
-////
-//        // 自分の現在地に移動するアイコンの追加
-//        googleMap.isMyLocationEnabled = true
-//        val zoomValue = 14.0f // 1.0f 〜 21.0f を指定
-//        var lastLatLng: LatLng? = null
-
 
         // 自分の現在地に移動するアイコンの追加
         googleMap.isMyLocationEnabled = true
@@ -121,20 +91,19 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         // マーカーを表示させる.
         googleMap.addMarker(
             MarkerOptions()
-                .position(sydney)             // 地図上のマーカーの位置
-                .title("Marker in Sydney")    // マーカーをタップ時に表示するテキスト文字列
+                .position(tokyoStation)             // 地図上のマーカーの位置
+                .title("Marker in tokyoStation")    // マーカーをタップ時に表示するテキスト文字列
                 .snippet("Australian cities") // タイトルの下に表示される追加のテキスト
                 .icon(BitmapDescriptorFactory.defaultMarker(
                     BitmapDescriptorFactory.HUE_BLUE)) // アイコン
         )
 
-        val latLng = LatLng(35.681236, 139.767125) // 東京駅
         val radius = 1000 *1.0 // 1km
 
         // 円を描画
         googleMap.addCircle(
             CircleOptions()
-                .center(latLng)          // 円の中心位置
+                .center(tokyoStation)          // 円の中心位置
                 .radius(radius)          // 半径 (メートル単位)
                 .strokeColor(Color.BLUE) // 線の色
                 .strokeWidth(2f)         // 線の太さ
@@ -148,6 +117,12 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
         // 距離をメートル単位で返す
 //        val distance = SphericalUtil.computeDistanceBetween(latLngA, latLngB)
 
+    }
+
+    override fun onMarkerClick(p0: Marker?): Boolean {
+
+        Log.w(TAG, "hoge")
+        return true
     }
 
     private fun locationStart() {
@@ -245,7 +220,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
     override fun onProviderDisabled(provider: String) {
 
     }
-//
+
 //    /**
 //     * ピン差しロジックを実装しているメソッド
 //     */
@@ -297,6 +272,8 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback {
 //            stopLocationUpdates()
 //        }
 //    }
+//
+//
 //
 //    private fun showToast( msg: String, length: Int = Toast.LENGTH_SHORT ) {
 //        Toast.makeText(this, msg, length).show()
