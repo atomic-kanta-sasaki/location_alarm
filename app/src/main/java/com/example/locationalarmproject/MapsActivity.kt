@@ -25,17 +25,12 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
-
-//import com.google.maps.android.SphericalUtil
-
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener {
 
@@ -111,16 +106,6 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         var lastLatLng: LatLng? = null
 //        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, zoomValue))
 
-        // マーカーを表示させる.
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(tokyoStation)             // 地図上のマーカーの位置
-                .title("Marker in tokyoStation")    // マーカーをタップ時に表示するテキスト文字列
-                .snippet("Australian cities") // タイトルの下に表示される追加のテキスト
-                .icon(BitmapDescriptorFactory.defaultMarker(
-                    BitmapDescriptorFactory.HUE_BLUE)) // アイコン
-        )
-
         val radius = 1000 *1.0 // 1km
 
         // 円を描画
@@ -147,11 +132,21 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
               fun onMapClick(tapLocation: LatLng) {
                 // tapされた位置の緯度経度
                 val location = LatLng(tapLocation.latitude, tapLocation.longitude)
-                val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude)
+                  // マーカーを表示させる.
+                  googleMap.addMarker(
+                      MarkerOptions()
+                          .position(location)             // 地図上のマーカーの位置
+                          .title("Marker in tokyoStation")    // マーカーをタップ時に表示するテキスト文字列
+                          .snippet("Australian cities") // タイトルの下に表示される追加のテキスト
+                          .icon(BitmapDescriptorFactory.defaultMarker(
+                              BitmapDescriptorFactory.HUE_BLUE)) // アイコン
+                  )
+
+                  val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude)
                 mMap.addMarker(MarkerOptions().position(location).title(str))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomSize.toFloat()))
             }
-        });
+        })
 
     }
 
