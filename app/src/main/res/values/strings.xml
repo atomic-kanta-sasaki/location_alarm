@@ -2,4 +2,14 @@
     <string name="app_name">locationAlarmProject</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_my_scheduler">MyScheduler</string>
+    <string name="titleEdit">タイトル：</string>
+    <string name="detail">詳細</string>
+    <string name="address">住所</string>
+    <string name="save">保存</string>
+    <string name="delete">削除</string>
+    <string name="notice">通知</string>
+    <string name="noticerange">通知範囲</string>
+    <string name="range50">50</string>
+    <string name="range100">100</string>
+    <string name="range200">200</string>
 </resources>
