@@ -83,6 +83,10 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
     }
 
+    /**
+     * mapを使用するための設定情報
+     */
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -151,12 +155,18 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
     }
 
+    /**
+     * ログをはかせる
+     */
     override fun onMarkerClick(p0: Marker?): Boolean {
 
         Log.w(TAG, "hoge")
         return true
     }
 
+    /**
+     * GPSの使用をスタートする
+     */
     private fun locationStart() {
         Log.d("debug", "locationStart()")
 
@@ -222,6 +232,9 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
     }
 
+    /**
+     * 状態ログをはかせる
+     */
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
         when (status) {
             LocationProvider.AVAILABLE ->
@@ -233,6 +246,9 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
     }
 
+    /**
+     * 現在位置が変更された場合に発火するメソッド
+     */
     override fun onLocationChanged(location: Location) {
         // Latitude
         val textView1 = findViewById<TextView>(R.id.text_view1)
@@ -245,10 +261,16 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         textView2.text = str2
     }
 
+    /**
+     * status保持用メソッド
+     */
     override fun onProviderEnabled(provider: String) {
 
     }
 
+    /**
+     * status保持用メソッド
+     */
     override fun onProviderDisabled(provider: String) {
 
     }
