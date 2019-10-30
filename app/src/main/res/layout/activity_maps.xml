@@ -1,34 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".MapsActivity">
+    tools:context=".MapsActivity"
+    android:id="@+id/linearLayout4">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_conversion_absoluteHeight="48dp"
+        tools:layout_editor_absoluteY="298dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_conversion_absoluteWidth="371dp" />
+
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MapsActivity" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".MapsActivity"
+        tools:layout_conversion_absoluteHeight="143dp"
+        tools:layout_editor_absoluteY="20dp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_conversion_absoluteWidth="168dp" />
 
     <TextView
         android:id="@+id/text_view1"
         android:textSize="20sp"
-        android:layout_margin="20dp"
         android:textColor="#44f"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="27dp"
+        tools:layout_editor_absoluteY="183dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_conversion_absoluteWidth="0dp" />
 
     <TextView
         android:id="@+id/text_view2"
         android:textSize="20sp"
         android:textColor="#f44"
-        android:layout_margin="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:layout_conversion_absoluteHeight="27dp"
+        tools:layout_editor_absoluteY="251dp"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_conversion_absoluteWidth="0dp" />
+
+
 </LinearLayout>
