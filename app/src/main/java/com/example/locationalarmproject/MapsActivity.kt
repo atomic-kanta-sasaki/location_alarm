@@ -25,17 +25,12 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
-
-//import com.google.maps.android.SphericalUtil
-
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener {
 
@@ -82,6 +77,10 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
     }
 
+    /**
+     * mapを使用するための設定情報
+     */
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
@@ -105,16 +104,6 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         val zoomValue = 14.0f // 1.0f 〜 21.0f を指定
         var lastLatLng: LatLng? = null
 //        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, zoomValue))
-
-        // マーカーを表示させる.
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(tokyoStation)             // 地図上のマーカーの位置
-                .title("Marker in tokyoStation")    // マーカーをタップ時に表示するテキスト文字列
-                .snippet("Australian cities") // タイトルの下に表示される追加のテキスト
-                .icon(BitmapDescriptorFactory.defaultMarker(
-                    BitmapDescriptorFactory.HUE_BLUE)) // アイコン
-        )
 
         val radius = 1000 *1.0 // 1km
 
@@ -142,20 +131,36 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
               fun onMapClick(tapLocation: LatLng) {
                 // tapされた位置の緯度経度
                 val location = LatLng(tapLocation.latitude, tapLocation.longitude)
-                val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude)
+                  // マーカーを表示させる.
+                  googleMap.addMarker(
+                      MarkerOptions()
+                          .position(location)             // 地図上のマーカーの位置
+                          .title("Marker in tokyoStation")    // マーカーをタップ時に表示するテキスト文字列
+                          .snippet("Australian cities") // タイトルの下に表示される追加のテキスト
+                          .icon(BitmapDescriptorFactory.defaultMarker(
+                              BitmapDescriptorFactory.HUE_BLUE)) // アイコン
+                  )
+
+                  val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude)
                 mMap.addMarker(MarkerOptions().position(location).title(str))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomSize.toFloat()))
             }
-        });
+        })
 
     }
 
+    /**
+     * ログをはかせる
+     */
     override fun onMarkerClick(p0: Marker?): Boolean {
 
         Log.w(TAG, "hoge")
         return true
     }
 
+    /**
+     * GPSの使用をスタートする
+     */
     private fun locationStart() {
         Log.d("debug", "locationStart()")
 
@@ -221,6 +226,9 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
     }
 
+    /**
+     * 状態ログをはかせる
+     */
     override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
         when (status) {
             LocationProvider.AVAILABLE ->
@@ -232,6 +240,9 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
     }
 
+    /**
+     * 現在位置が変更された場合に発火するメソッド
+     */
     override fun onLocationChanged(location: Location) {
         // Latitude
         val textView1 = findViewById<TextView>(R.id.text_view1)
@@ -244,10 +255,16 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         textView2.text = str2
     }
 
+    /**
+     * status保持用メソッド
+     */
     override fun onProviderEnabled(provider: String) {
 
     }
 
+    /**
+     * status保持用メソッド
+     */
     override fun onProviderDisabled(provider: String) {
 
     }

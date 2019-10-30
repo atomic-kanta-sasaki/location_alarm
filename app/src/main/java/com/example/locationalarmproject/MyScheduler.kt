@@ -2,12 +2,10 @@ package com.example.locationalarmproject
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.realm.Realm
 import io.realm.kotlin.where
-
 import kotlinx.android.synthetic.main.activity_my_scheduler.*
 
 class MyScheduler : AppCompatActivity() {
@@ -20,6 +18,7 @@ class MyScheduler : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_scheduler)
         setSupportActionBar(toolbar)
+
         realm = Realm.getDefaultInstance()
         list.layoutManager = LinearLayoutManager(this)
         val schedules = realm.where<Schedule>().findAll()
@@ -39,8 +38,8 @@ class MyScheduler : AppCompatActivity() {
 
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intent = Intent(this,ScheduleEditActivity::class.java)
+            startActivity(intent)
         }
     }
     override fun onDestroy() {
