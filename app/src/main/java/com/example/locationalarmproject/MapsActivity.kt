@@ -28,6 +28,13 @@ import com.google.android.gms.maps.model.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_maps.*
+
+//import com.google.maps.android.SphericalUtil
 
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener {
@@ -47,6 +54,12 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         setContentView(R.layout.activity_maps)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        button2.setOnClickListener {
+            val intent = Intent(this,MyScheduler::class.java)
+            startActivity(intent)
+        }
+
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
