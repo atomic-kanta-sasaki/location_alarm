@@ -12,7 +12,9 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
     RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(data,true){
 
     private var listener: ((Long?)-> Unit)? = null
-
+    /**
+     * 引数として関数型を受け取る
+     */
     fun setOnItemClickListener(listener:(Long?)-> Unit) {
         this.listener = listener
     }
@@ -24,6 +26,10 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         val date: TextView = cell.findViewById(android.R.id.text1)
         var title: TextView = cell.findViewById(android.R.id.text2)
     }
+
+    /**
+     * ViewHolderのインスタンスを生成して返す
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(android.R.layout.simple_list_item_2,
@@ -31,6 +37,9 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         return ViewHolder(view)
     }
 
+    /**
+     * ViewHolderで保持しているビューに対して実際に表示するコンテンツの設定
+     */
     override fun onBindViewHolder(
         holder: ScheduleAdapter.ViewHolder,
         position: Int) {
@@ -41,6 +50,9 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         }
     }
 
+    /**
+     * getItemIdをオーバーライド
+     */
     override fun getItemId(position: Int): Long {
         return super.getItem(position)?.id ?: 0
     }

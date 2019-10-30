@@ -13,6 +13,10 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity() {
     private lateinit var realm: Realm
 
+    /**
+     *データベースを取得する
+     */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * アクティビティの終了
+     */
     override fun onDestroy() {
         super.onDestroy()
         realm.close()

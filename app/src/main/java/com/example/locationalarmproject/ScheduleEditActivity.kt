@@ -13,16 +13,18 @@ import kotlinx.android.synthetic.main.activity_schedule_edit.*
 class ScheduleEditActivity : AppCompatActivity() {
 
     private lateinit var realm: Realm
-
+    /**
+     *更新処理
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule_edit)
         realm = Realm.getDefaultInstance()
-//更新処理
+
         val scheduleId = intent?.getLongExtra("schedule_id", -1L)
-        //-1でない場合更新
+
         if (scheduleId != -1L) {
-            //idフィールドがscheduleIdと同じレコードを取得してscheduleに格納
+
             val  schedule = realm.where<Schedule>()
                 .equalTo("id", scheduleId).findFirst()
 
@@ -80,6 +82,9 @@ class ScheduleEditActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * アクティビティの終了
+     */
     override fun onDestroy() {
         super.onDestroy()
         realm.close()
