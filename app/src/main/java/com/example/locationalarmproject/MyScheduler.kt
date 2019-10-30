@@ -12,6 +12,9 @@ import kotlinx.android.synthetic.main.activity_my_scheduler.*
 class MyScheduler : AppCompatActivity() {
     private lateinit var realm: Realm
 
+    /**
+     * Realmクラスインスタンスの取得
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_scheduler)

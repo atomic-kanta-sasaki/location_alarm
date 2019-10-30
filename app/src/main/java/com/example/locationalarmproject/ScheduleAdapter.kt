@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
 
+/**
+ * RealmRecyclerViewAdapterクラスの継承
+ */
 class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
     RealmRecyclerViewAdapter<Schedule, ScheduleAdapter.ViewHolder>(data,true){
 
@@ -27,6 +30,9 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         val title: TextView = cell.findViewById(android.R.id.text2)
     }
 
+    /**
+     * セルが必要になるたびに呼び出される
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(android.R.layout.simple_expandable_list_item_2,
