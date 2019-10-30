@@ -1,5 +1,6 @@
 package com.example.locationalarmproject
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,17 @@ class MyScheduler : AppCompatActivity() {
         val schedules = realm.where<Schedule>().findAll()
         val adapter = ScheduleAdapter(schedules)
         list.adapter = adapter
+
+        fab.setOnClickListener { view ->
+            val intent = Intent(this, ScheduleEditActivity::class.java)
+            startActivity(intent)
+        }
+        adapter.setOnItemClickListener { id ->
+            val intent = Intent(this, ScheduleEditActivity::class.java)
+                .putExtra("schedule_id", id)
+            startActivity(intent)
+        }
+
 
 
         fab.setOnClickListener { view ->
