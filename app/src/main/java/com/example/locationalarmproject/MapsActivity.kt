@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
@@ -32,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 
-class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener {
+class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
     private var lastLatLng: LatLng? = null
     private var pinList: Map<Int, Map<String, Any>> = mapOf()
@@ -123,31 +124,24 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         val latLngA = LatLng(35.681236, 139.767125)
         val latLngB = LatLng(34.7331, 135.5002)
 
-        // 距離をメートル単位で返す
-//        val distance = SphericalUtil.computeDistanceBetween(latLngA, latLngB)
-
-
          var zoomSize = 14
-         mMap.setOnMapClickListener( GoogleMap.OnMapClickListener() {
-              fun onMapClick(tapLocation: LatLng) {
-                // tapされた位置の緯度経度
-                val location = LatLng(tapLocation.latitude, tapLocation.longitude)
-                  // マーカーを表示させる.
-                  googleMap.addMarker(
-                      MarkerOptions()
-                          .position(location)             // 地図上のマーカーの位置
-                          .title("Marker in tokyoStation")    // マーカーをタップ時に表示するテキスト文字列
-                          .snippet("Australian cities") // タイトルの下に表示される追加のテキスト
-                          .icon(BitmapDescriptorFactory.defaultMarker(
-                              BitmapDescriptorFactory.HUE_BLUE)) // アイコン
-                  )
+             // tapされた位置の緯度経度
+            mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
 
-                  val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude)
-                mMap.addMarker(MarkerOptions().position(location).title(str))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomSize.toFloat()))
-            }
-        })
+                 override fun onMapClick(tapLocation: LatLng) {
+                     // tapされた位置の緯度経度
+                     val location = LatLng(tapLocation.latitude, tapLocation.longitude);
+                     val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude);
+                     mMap.addMarker(MarkerOptions().position(location).title(str));
+                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14.toFloat()));
+                 }
+             })
 
+    }
+
+    override fun onMapClick(tapLocation: LatLng) {
+        // tapされた位置の緯度経度
+        val location = LatLng(tapLocation.latitude, tapLocation.longitude)
     }
 
     /**
