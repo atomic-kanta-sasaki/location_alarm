@@ -55,7 +55,6 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
             startActivity(intent)
         }
 
-
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
