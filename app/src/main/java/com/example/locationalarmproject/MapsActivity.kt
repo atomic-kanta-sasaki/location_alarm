@@ -26,8 +26,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import java.util.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
@@ -106,15 +104,18 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
 
          var zoomSize = 14
+        var str = null;
              // tapされた位置の緯度経度
             mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
 
                  override fun onMapClick(tapLocation: LatLng) {
                      // tapされた位置の緯度経度
                      val location = LatLng(tapLocation.latitude, tapLocation.longitude);
-                     val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude);
-                     mMap.addMarker(MarkerOptions().position(location).title(str));
-                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14.toFloat()));
+                         mMap.clear()
+                         val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude);
+                         mMap.addMarker(MarkerOptions().position(location).title(str));
+                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14.toFloat()));
+
                  }
              })
 
