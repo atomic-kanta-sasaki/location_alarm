@@ -1,6 +1,5 @@
 package com.example.locationalarmproject
 
-
 //import com.google.maps.android.SphericalUtil
 import android.Manifest
 import android.content.Context
@@ -104,24 +103,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         googleMap.isMyLocationEnabled = true
         val zoomValue = 14.0f // 1.0f 〜 21.0f を指定
         var lastLatLng: LatLng? = null
-//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(lastLatLng, zoomValue))
 
-        val radius = 1000 *1.0 // 1km
-
-        // 円を描画
-        googleMap.addCircle(
-            CircleOptions()
-                .center(tokyoStation)          // 円の中心位置
-                .radius(radius)          // 半径 (メートル単位)
-                .strokeColor(Color.BLUE) // 線の色
-                .strokeWidth(2f)         // 線の太さ
-                .fillColor(0x400080ff)
-                .clickable(true)// 円の塗りつぶし色
-        )
-
-        // 一旦例として東京駅と大阪駅の緯度と経度を示す
-        val latLngA = LatLng(35.681236, 139.767125)
-        val latLngB = LatLng(34.7331, 135.5002)
 
          var zoomSize = 14
              // tapされた位置の緯度経度
