@@ -1,9 +1,11 @@
 package com.example.locationalarmproject
 
+import android.graphics.drawable.ClipDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
@@ -28,6 +30,7 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
     class ViewHolder(cell: View) : RecyclerView.ViewHolder(cell){
         val date: TextView = cell.findViewById(android.R.id.text1)
         val title: TextView = cell.findViewById(android.R.id.text2)
+
     }
 
     /**
@@ -38,6 +41,8 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         val view = inflater.inflate(android.R.layout.simple_expandable_list_item_2,
             parent, false)
         return ViewHolder(view)
+
+
     }
 
     override fun onBindViewHolder(
@@ -49,6 +54,7 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         holder.itemView.setOnClickListener {
             listener?.invoke(schedule?.id)
         }
+
     }
 
     override fun getItemId(position: Int): Long {
