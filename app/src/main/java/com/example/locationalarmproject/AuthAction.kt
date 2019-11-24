@@ -1,14 +1,13 @@
+package com.example.locationalarmproject
+
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.locationalarmproject.R
 import com.google.firebase.auth.FirebaseAuth
 
-
-class MainActivity : AppCompatActivity() {
-
+class AuthAction : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        val buttonSignUp = findViewById<Button>(R.id.SignUpButton)
+        val buttonSignUp = findViewById<Button>(R.id.SiunUpButton)
         val buttonLogin = findViewById<Button>(R.id.LoginButton)
 
 
@@ -73,4 +72,5 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
 }
