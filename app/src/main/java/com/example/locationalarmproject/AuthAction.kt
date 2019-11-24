@@ -1,11 +1,13 @@
 package com.example.locationalarmproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_maps.*
 
 class AuthAction : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -37,6 +39,8 @@ class AuthAction : AppCompatActivity() {
                             baseContext, "SignUp 成功",
                             Toast.LENGTH_SHORT
                         ).show()
+                        val intent = Intent(this,MyScheduler::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(
                             baseContext, "SignUp 失敗",
@@ -61,6 +65,8 @@ class AuthAction : AppCompatActivity() {
                             baseContext, "Login 成功",
                             Toast.LENGTH_SHORT
                         ).show()
+                        val intent = Intent(this,MyScheduler::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(
                             baseContext, "Login 失敗",
