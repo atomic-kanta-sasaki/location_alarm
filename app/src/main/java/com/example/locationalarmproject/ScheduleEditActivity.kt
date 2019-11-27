@@ -74,6 +74,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             }
             val dialog = TimeAlertDialog()
             dialog.show(supportFragmentManager, "alert_dialog")
+
         }
         setContentView(R.layout.activity_schedule_edit)
 
