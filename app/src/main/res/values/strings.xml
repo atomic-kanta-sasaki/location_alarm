@@ -12,4 +12,6 @@
     <string name="range50">50</string>
     <string name="range100">100</string>
     <string name="range200">200</string>
+    <string name="alarmperiod">通知期間</string>
+    <string name="nami">~</string>
 </resources>

@@ -7,7 +7,7 @@ import java.util.*
 open class Schedule  : RealmObject(){
     @PrimaryKey
     var id: Long = 0
-    var date: Date = Date()
+    var address: String =""
     var title: String = ""
     var detail: String = ""
 
