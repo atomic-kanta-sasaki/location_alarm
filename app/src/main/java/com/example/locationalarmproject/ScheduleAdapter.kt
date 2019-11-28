@@ -1,5 +1,6 @@
 package com.example.locationalarmproject
 
+import android.R
 import android.graphics.drawable.ClipDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -28,8 +29,9 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
     }
 
     class ViewHolder(cell: View) : RecyclerView.ViewHolder(cell){
-        val date: TextView = cell.findViewById(android.R.id.text1)
-        val title: TextView = cell.findViewById(android.R.id.text2)
+        val date: TextView = cell.findViewById(R.id.text1)
+        val title: TextView = cell.findViewById(R.id.text2)
+        val date2: TextView = cell.findViewById(R.id.text1)
 
     }
 
@@ -49,7 +51,8 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
         holder: ScheduleAdapter.ViewHolder,
         position: Int) {
         val schedule: Schedule? = getItem(position)
-
+        holder.date.text = schedule?.date.toString()
+        holder.date2.text = schedule?.date2.toString()
         holder.title.text = schedule?.title
         holder.itemView.setOnClickListener {
             listener?.invoke(schedule?.id)
