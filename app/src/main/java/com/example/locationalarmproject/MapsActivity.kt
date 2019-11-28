@@ -246,4 +246,5 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
     }
 
+
 }

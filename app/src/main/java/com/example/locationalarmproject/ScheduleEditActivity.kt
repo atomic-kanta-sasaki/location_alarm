@@ -4,20 +4,16 @@ import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcel
 import android.os.PersistableBundle
-import android.text.format.DateFormat
-import android.text.format.DateFormat.*
 import android.view.View
 import android.view.WindowManager.LayoutParams.*
 import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_schedule_edit.*
@@ -114,7 +110,12 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule_edit)
-        realm = Realm.getDefaultInstance()
+        var realmConfigration = RealmConfiguration.Builder()
+            .deleteRealmIfMigrationNeeded()
+            .schemaVersion(0)
+            .build()
+
+        realm = Realm.getInstance(realmConfigration)
 
 
         val scheduleId = intent?.getLongExtra("schedule_id", -1L)
@@ -167,15 +168,10 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             finish()
         }
 
-        address.setOnClickListener { onaddressButtonTapped(it) }
-    }
-
-    /**
-     * 住所テキストをタップした処理
-     */
-    fun onaddressButtonTapped(view: View?){
-        val intent = Intent(this,MapsActivity::class.java)
-        startActivity(intent)
+        addAdress.setOnClickListener {
+            val intent = Intent(this,MapsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     /**
@@ -191,6 +187,3 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
 
 private fun Calendar.get(year: Int, month: Int, date: Int) {
 }
-
-
-
