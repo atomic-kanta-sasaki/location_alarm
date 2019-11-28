@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.actions.ItemListIntents
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_my_scheduler.*
 import kotlinx.android.synthetic.main.activity_schedule_edit.*
@@ -29,7 +30,12 @@ class MyScheduler : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_scheduler)
         setSupportActionBar(toolbar)
-        realm = Realm.getDefaultInstance()
+        val realmCofigration = RealmConfiguration.Builder()
+            .deleteRealmIfMigrationNeeded()
+            .schemaVersion(0)
+            .build()
+        realm = Realm.getInstance(realmCofigration)
+
 
         list.layoutManager = LinearLayoutManager(this)
         val schedules = realm.where<Schedule>().findAll()

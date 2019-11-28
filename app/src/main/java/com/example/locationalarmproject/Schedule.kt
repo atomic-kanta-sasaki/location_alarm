@@ -6,9 +6,9 @@ import java.util.*
 
 open class Schedule  : RealmObject(){
     @PrimaryKey
-    var id: Long = 0
-    var address: String =""
-    var title: String = ""
-    var detail: String = ""
+    var id: Long? = 0
+    var address: String? =""
+    var title: String? = ""
+    var detail: String? = ""
 
 }
