@@ -18,10 +18,14 @@ import kotlinx.android.synthetic.main.activity_my_scheduler.*
 import kotlinx.android.synthetic.main.activity_schedule_edit.*
 import kotlinx.android.synthetic.main.content_my_scheduler.*
 import androidx.recyclerview.widget.DividerItemDecoration as DividerItemDecoration1
+import io.realm.OrderedRealmCollection as RealmOrderedRealmCollection
 
 
 class MyScheduler : AppCompatActivity() {
     private lateinit var realm: Realm
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
 
     /**
      * Realmクラスインスタンスの取得
@@ -30,6 +34,14 @@ class MyScheduler : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_scheduler)
         setSupportActionBar(toolbar)
+
+        viewManager = LinearLayoutManager(this)
+       /*
+       viewAdapter = ScheduleAdapter(data = RealmOrderedRealmCollection<Schedule>)
+        */
+
+
+
         val realmCofigration = RealmConfiguration.Builder()
             .deleteRealmIfMigrationNeeded()
             .schemaVersion(0)
@@ -52,6 +64,11 @@ class MyScheduler : AppCompatActivity() {
             startActivity(intent)
 
         }
+
+        /*
+        リスト画面で下記のコードで枠線が出るはずだがエラー
+         */
+        RecyclerView.addItemDecolation(androidx.recyclerview.widget.DividerItemDecoration(this,androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
 
     }
 
