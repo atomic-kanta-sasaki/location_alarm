@@ -12,6 +12,8 @@ import android.os.PersistableBundle
 import android.view.View
 import android.view.WindowManager.LayoutParams.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
@@ -41,8 +43,100 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
         date2Text.text = str
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+
+
+
+
+
+    fun describeContents(): Int {
+        return 0
+    }
+    private lateinit var realm: Realm
+    /**
+     * 更新処理
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_schedule_edit)
+        var realmConfigration = RealmConfiguration.Builder()
+            .deleteRealmIfMigrationNeeded()
+            .schemaVersion(0)
+            .build()
+
+        realm = Realm.getInstance(realmConfigration)
+
+        dateText.setOnClickListener{
+            val dialog = TimeAlertDialog.DatePickerFragment()
+            dialog.show(supportFragmentManager, "date_dialog")
+        }
+        date2Text.setOnClickListener{
+            val dialog2 = TimeAlertDialog2.DatePickerFragment()
+            dialog2.show(supportFragmentManager, "date_dialog")
+        }
+
+        val scheduleId = intent?.getLongExtra("schedule_id", -1L)
+        if (scheduleId != -1L) {
+
+            val  schedule = realm.where<Schedule>()
+                .equalTo("id", scheduleId).findFirst()
+
+            titleEdit.setText(schedule?.title)
+            dateText.setText(schedule?.stg)
+            date2Text.setText(schedule?.str)
+            detailEdit.setText(schedule?.detail)
+            delete.visibility = View.VISIBLE
+
+        }else{
+            delete.visibility = View.INVISIBLE
+        }
+        /**
+         * 保存タップ処理
+         */
+        save.setOnClickListener {view: View ->
+            when (scheduleId){
+                -1L -> {
+                    realm.executeTransaction { db: Realm ->
+                        val maxId = db.where<Schedule>().max("id")
+                        val nextId = (maxId?.toLong() ?: 0L)  + 1
+                        val schedule = db.createObject<Schedule>(nextId)
+
+                        schedule.title = titleEdit.text.toString()
+                        schedule.detail = detailEdit.text.toString()
+                        schedule.stg=dateText.text.toString()
+                        schedule.str = date2Text.text.toString()
+                    }
+                    finish()
+                }
+                else -> {
+                    realm.executeTransaction { db: Realm ->
+                        val schedule = db.where<Schedule>()
+                            .equalTo("id", scheduleId).findFirst()
+                        schedule?.title = titleEdit.text.toString()
+                        schedule?.detail = detailEdit.text.toString()
+                        schedule?.stg=dateText.text.toString()
+                        schedule?.str = date2Text.text.toString()
+                    }
+                    finish()
+                }
+            }
+        }
+
+        delete.setOnClickListener{ view: View ->
+            realm.executeTransaction{db: Realm ->
+                db.where<Schedule>().equalTo("id",scheduleId)
+                    ?.findFirst()
+                    ?.deleteFromRealm()
+            }
+            finish()
+        }
+
+        addAdress.setOnClickListener {
+            val intent = Intent(this,MapsActivity::class.java)
+            startActivity(intent)
+        }
+        /**
+         * スリープ解除
+         */
         if (intent?.getBooleanExtra("onReceive", false) == true){
             when {
 
@@ -70,21 +164,8 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             }
             val dialog = TimeAlertDialog()
             dialog.show(supportFragmentManager, "alert_dialog")
-
         }
-        setContentView(R.layout.activity_schedule_edit)
-
-        dateText.setOnClickListener{
-            val dialog = TimeAlertDialog.DatePickerFragment()
-            dialog.show(supportFragmentManager, "date_dialog")
-        }
-        date2Text.setOnClickListener{
-            val dialog2 = TimeAlertDialog2.DatePickerFragment()
-            dialog2.show(supportFragmentManager, "date_dialog")
-        }
-
     }
-
     /**
      * 設定日時に通知システム起動
      */
@@ -97,80 +178,6 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             return null
         } catch (e: ParseException) {
             return null
-        }
-    }
-
-    fun describeContents(): Int {
-        return 0
-    }
-    private lateinit var realm: Realm
-    /**
-     * 更新処理
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schedule_edit)
-        var realmConfigration = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
-            .schemaVersion(0)
-            .build()
-
-        realm = Realm.getInstance(realmConfigration)
-
-
-        val scheduleId = intent?.getLongExtra("schedule_id", -1L)
-        if (scheduleId != -1L) {
-
-            val  schedule = realm.where<Schedule>()
-                .equalTo("id", scheduleId).findFirst()
-
-            titleEdit.setText(schedule?.title)
-            detailEdit.setText(schedule?.detail)
-            delete.visibility = View.VISIBLE
-
-        }else{
-            delete.visibility = View.INVISIBLE
-        }
-
-        save.setOnClickListener {view: View ->
-            when (scheduleId){
-                -1L -> {
-
-
-                    realm.executeTransaction { db: Realm ->
-                        val maxId = db.where<Schedule>().max("id")
-                        val nextId = (maxId?.toLong() ?: 0L)  + 1
-                        val schedule = db.createObject<Schedule>(nextId)
-
-                        schedule.title = titleEdit.text.toString()
-                        schedule.detail = detailEdit.text.toString()
-                    }
-                    finish()
-                }
-                else -> {
-                    realm.executeTransaction { db: Realm ->
-                        val schedule = db.where<Schedule>()
-                            .equalTo("id", scheduleId).findFirst()
-                        schedule?.title = titleEdit.text.toString()
-                        schedule?.detail = detailEdit.text.toString()
-                    }
-                    finish()
-                }
-            }
-        }
-
-        delete.setOnClickListener{ view: View ->
-            realm.executeTransaction{db: Realm ->
-                db.where<Schedule>().equalTo("id",scheduleId)
-                    ?.findFirst()
-                    ?.deleteFromRealm()
-            }
-            finish()
-        }
-
-        addAdress.setOnClickListener {
-            val intent = Intent(this,MapsActivity::class.java)
-            startActivity(intent)
         }
     }
 
