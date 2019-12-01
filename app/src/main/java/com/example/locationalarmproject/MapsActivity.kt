@@ -266,7 +266,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
         var realm = Realm.getDefaultInstance()
 
-        var result = realm.where(Schedule::class.java).equalTo("adress",str1).findFirst()
+        var result = realm.where(Schedule::class.java).equalTo("title",str1).findFirst()
         if(result != null) {
             // 通知の設定
             val builder = Notification.Builder(this).apply {
