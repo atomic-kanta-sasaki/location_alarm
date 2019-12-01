@@ -2,6 +2,10 @@ package com.example.locationalarmproject
 
 //import com.google.maps.android.SphericalUtil
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -28,6 +32,8 @@ import com.google.android.gms.maps.model.*
 import java.util.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_maps.*
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
@@ -47,9 +53,36 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         setContentView(R.layout.activity_maps)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        button2.setOnClickListener {
+//            val intent = Intent(this,MyScheduler::class.java)
+//            startActivity(intent)
+//        }
+
         button2.setOnClickListener {
-            val intent = Intent(this,MyScheduler::class.java)
-            startActivity(intent)
+            // 通知の設定
+            val builder = Notification.Builder(this).apply {
+                setSmallIcon(R.drawable.notification_template_icon_bg)// 必須
+                setContentTitle("Title")
+                setContentText("This is a notification")
+                setAutoCancel(true)
+                setDefaults(Notification.DEFAULT_ALL)
+            }
+
+            // 親となるアクティビティを指定 マニフェストに追記が必要
+            val stackBuilder = TaskStackBuilder.create(this)
+            stackBuilder.addParentStack(MapsActivity::class.java)
+
+            // 表示するアクティビティ
+            stackBuilder.addNextIntent(Intent(this, MapsActivity::class.java))
+
+            // 通知をタップした時に開くインテントを設定
+            val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            builder.setContentIntent(pendingIntent)
+
+            // 通知を送信
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(0, builder.build())
         }
 
         val mapFragment = supportFragmentManager
@@ -230,6 +263,38 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         val textView2 = findViewById<TextView>(R.id.text_view2)
         val str2 = "Longtude:" + location.getLongitude()
         textView2.text = str2
+
+        var realm = Realm.getDefaultInstance()
+
+        var result = realm.where(Schedule::class.java).equalTo("adress",str1).findFirst()
+        if(result != null) {
+            // 通知の設定
+            val builder = Notification.Builder(this).apply {
+                setSmallIcon(R.drawable.notification_template_icon_bg)// 必須
+                setContentTitle("Title")
+                setContentText("This is a notification")
+                setAutoCancel(true)
+                setDefaults(Notification.DEFAULT_ALL)
+            }
+
+            // 親となるアクティビティを指定 マニフェストに追記が必要
+            val stackBuilder = TaskStackBuilder.create(this)
+            stackBuilder.addParentStack(MyScheduler::class.java)
+
+            // 表示するアクティビティ
+            stackBuilder.addNextIntent(Intent(this, MyScheduler::class.java))
+
+            // 通知をタップした時に開くインテントを設定
+            val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            builder.setContentIntent(pendingIntent)
+
+            // 通知を送信
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(0, builder.build())
+        }
+
+
     }
 
     /**
