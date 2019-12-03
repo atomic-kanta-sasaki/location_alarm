@@ -3,14 +3,17 @@ package com.example.locationalarmproject
 import android.content.Intent
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.ClipDrawable.VERTICAL
+import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.widget.SearchView
+import android.widget.LinearLayout
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.actions.ItemListIntents
+import com.google.android.material.tabs.TabLayout
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.where
@@ -19,13 +22,15 @@ import kotlinx.android.synthetic.main.activity_schedule_edit.*
 import kotlinx.android.synthetic.main.content_my_scheduler.*
 import androidx.recyclerview.widget.DividerItemDecoration as DividerItemDecoration1
 import io.realm.OrderedRealmCollection as RealmOrderedRealmCollection
+import androidx.appcompat.widget.SearchView
 
 
 class MyScheduler : AppCompatActivity() {
     private lateinit var realm: Realm
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-
+    private var recyclerView:RecyclerView?=null
+    private var searchView: SearchView? = null
 
     /**
      * Realmクラスインスタンスの取得
@@ -35,6 +40,8 @@ class MyScheduler : AppCompatActivity() {
         setContentView(R.layout.activity_my_scheduler)
         setSupportActionBar(toolbar)
 
+        recyclerView = findViewById(R.id.list)
+        searchView = findViewById(R.id.menu_search)
         viewManager = LinearLayoutManager(this)
        /*
        viewAdapter = ScheduleAdapter(data = RealmOrderedRealmCollection<Schedule>)
@@ -57,6 +64,7 @@ class MyScheduler : AppCompatActivity() {
         fab.setOnClickListener { view ->
             val intent = Intent(this, ScheduleEditActivity::class.java)
             startActivity(intent)
+
         }
         adapter.setOnItemClickListener { id ->
             val intent = Intent(this, ScheduleEditActivity::class.java)
@@ -66,9 +74,11 @@ class MyScheduler : AppCompatActivity() {
         }
 
         /*
-        リスト画面で下記のコードで枠線が出るはずだがエラー
+        リストの線の表示
          */
-        RecyclerView.addItemDecolation(androidx.recyclerview.widget.DividerItemDecoration(this,androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
+        val divider = androidx.recyclerview.widget.DividerItemDecoration(list.context,LinearLayoutManager(this).orientation)
+        list.addItemDecoration(divider)
+
 
     }
 
@@ -81,7 +91,8 @@ class MyScheduler : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search, menu)
 
-
         return super.onCreateOptionsMenu(menu)
     }
+
+
 }
