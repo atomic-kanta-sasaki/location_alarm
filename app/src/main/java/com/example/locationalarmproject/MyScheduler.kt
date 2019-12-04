@@ -92,7 +92,7 @@ class MyScheduler : AppCompatActivity() {
         (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
-        
+
         return super.onCreateOptionsMenu(menu)
     }
 }
