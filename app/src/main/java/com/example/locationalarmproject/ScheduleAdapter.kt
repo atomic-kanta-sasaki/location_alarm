@@ -1,14 +1,20 @@
 package com.example.locationalarmproject
 
+import android.content.Context
 import android.graphics.drawable.ClipDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.Filter
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
+import java.util.ArrayList
+import java.util.jar.Attributes
 
 /**
  * RealmRecyclerViewAdapterクラスの継承
@@ -60,6 +66,9 @@ class ScheduleAdapter (data: OrderedRealmCollection<Schedule>) :
     override fun getItemId(position: Int): Long {
         return getItem(position)?.id ?: 0
     }
+
+
+
 
 
 

@@ -1,5 +1,7 @@
 package com.example.locationalarmproject
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.ClipDrawable.VERTICAL
@@ -8,6 +10,8 @@ import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
+import androidx.core.view.isNotEmpty
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.actions.ItemListIntents
@@ -52,6 +56,13 @@ class MyScheduler : AppCompatActivity() {
             startActivity(intent)
 
         }
+        /*
+        区切り線の追加
+         */
+        val divider = androidx.recyclerview.widget.DividerItemDecoration(list.context,LinearLayoutManager(this).orientation)
+        list.addItemDecoration(divider)
+
+
 
     }
 
@@ -63,8 +74,25 @@ class MyScheduler : AppCompatActivity() {
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search, menu)
+        val searchItem = menu?.findItem(R.id.menu_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Search View Hint"
+        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+        })
 
 
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.menu_search).actionView as SearchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        }
+        
         return super.onCreateOptionsMenu(menu)
     }
 }
