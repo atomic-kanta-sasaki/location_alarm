@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.DividerItemDecoration as DividerItemDecorati
 class MyScheduler : AppCompatActivity() {
     private lateinit var realm: Realm
 
+
     /**
      * Realmクラスインスタンスの取得
      */
@@ -73,18 +74,29 @@ class MyScheduler : AppCompatActivity() {
     検索ボックスの表示
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
         menuInflater.inflate(R.menu.search, menu)
         val searchItem = menu?.findItem(R.id.menu_search)
         val searchView = searchItem?.actionView as SearchView
         searchView.queryHint = "Search View Hint"
-        searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(p0: String?): Boolean {
+        val searchViewiew = menu.findItem(R.id.menu_search).actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+
+
+            override fun onQueryTextSubmit(text: String?): Boolean {
+
                 return true
             }
 
-            override fun onQueryTextChange(p0: String?): Boolean {
+            override fun onQueryTextChange(text: String?): Boolean {
+                val ScheduleAdapter = menu.findItem(R.id.list)
+
                 return false
             }
+
+
+
         })
 
 
