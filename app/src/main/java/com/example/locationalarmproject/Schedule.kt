@@ -12,5 +12,6 @@ open class Schedule  : RealmObject(){
     var detail: String? = ""
     var stg: String?= ""
     var str: String?=""
+    var range:String?=""
 
 }

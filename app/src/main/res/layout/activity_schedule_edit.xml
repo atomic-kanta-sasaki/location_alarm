@@ -83,34 +83,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:text="@string/noticerange"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <RadioGroup
-        android:layout_width="wrap_content"
+        android:id="@+id/radioGroup"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/rangeText">
 
         <RadioButton
-            android:id="@+id/range1"
+            android:id="@+id/range50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/range50" />
+            android:text="@string/range50m"
+            android:textSize="24sp" />
 
         <RadioButton
-            android:id="@+id/range2"
+            android:id="@+id/range100"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/range100" />
+            android:text="@string/range100m"
+            android:textSize="24sp" />
 
         <RadioButton
-            android:id="@+id/range3"
+            android:id="@+id/range200"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/range200" />
+            android:text="@string/range200m"
+            android:textSize="24sp" />
     </RadioGroup>
 
     <TextView
@@ -181,5 +186,17 @@
         android:text="場所を追加"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rangeText"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/newcolor"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
