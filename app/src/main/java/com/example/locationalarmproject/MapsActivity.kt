@@ -6,7 +6,6 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -19,8 +18,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -273,6 +270,8 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 //        val textView2 = findViewById<TextView>(R.id.text_view2)
 //        val str2 = "Longtude:" + location.getLongitude()
 //        textView2.text = str2
+
+        // dbから200mいないに自分がいるデータを取得しもしあればそのレコードを取得・通知をだす
 
         // 通知の設定
         val builder = Notification.Builder(this).apply {
