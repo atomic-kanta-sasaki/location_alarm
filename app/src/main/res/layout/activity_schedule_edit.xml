@@ -177,7 +177,8 @@
         android:id="@+id/addAdress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="420dp"
+        android:layout_marginTop="404dp"
+        android:layout_marginEnd="16dp"
         android:text="場所を追加"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

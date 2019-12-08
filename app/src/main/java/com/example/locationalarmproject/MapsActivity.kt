@@ -14,6 +14,7 @@ import android.location.LocationProvider
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,8 +33,10 @@ import java.util.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.activity_schedule_edit.*
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
@@ -46,17 +49,28 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
     // lateinit: late initialize to avoid checking null
     private lateinit var locationManager: LocationManager
     private lateinit var mMap: GoogleMap
+    private lateinit var realm: Realm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        button2.setOnClickListener {
-            val intent = Intent(this,MyScheduler::class.java)
+
+        val realmCofigration = RealmConfiguration.Builder()
+            .deleteRealmIfMigrationNeeded()
+            .schemaVersion(0)
+            .build()
+
+        realm = Realm.getInstance(realmCofigration)
+
+        var scheduler = realm.where(Schedule::class.java).findAll()
+        var latest_schedule: Long = scheduler.max("id").toString().toLong()
+
+        button3.setOnClickListener{
+
+            val intent = Intent(this, ScheduleEditActivity::class.java).putExtra("schedule_id", latest_schedule)
             startActivity(intent)
         }
-
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -86,6 +100,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
      */
 
     override fun onMapReady(googleMap: GoogleMap) {
+
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
@@ -117,12 +132,33 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
                  override fun onMapClick(tapLocation: LatLng) {
                      // tapされた位置の緯度経度
                      val location = LatLng(tapLocation.latitude, tapLocation.longitude);
-                         mMap.clear()
-                         val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude);
-                         mMap.addMarker(MarkerOptions().position(location).title(str));
-                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14.toFloat()));
+                     mMap.clear()
+                     val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude);
+                     mMap.addMarker(MarkerOptions().position(location).title(str));
+                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14.toFloat()))
 
+                     val realmCofigration = RealmConfiguration.Builder()
+                         .deleteRealmIfMigrationNeeded()
+                         .schemaVersion(0)
+                         .build()
+
+                     realm = Realm.getInstance(realmCofigration)
+
+                     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+                     button2.setOnClickListener {
+                             realm.executeTransaction { db: Realm ->
+
+                                 var scheduler = realm.where(Schedule::class.java).findAll()
+                                 var latest_schedule: Long = scheduler.max("id").toString().toLong()
+
+                                 val schedule = db.where<Schedule>()
+                                     .equalTo("id", latest_schedule).findFirst()
+                                 schedule?.address = location.toString()
+                             }
+                         }
                  }
+
+
              })
 
     }
@@ -227,18 +263,16 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
      * 現在位置が変更された場合に発火するメソッド
      */
     override fun onLocationChanged(location: Location) {
-        // Latitude
-        val textView1 = findViewById<TextView>(R.id.text_view1)
-        val str1 = "Latitude:" + location.getLatitude()
-        textView1.text = str1
-
-        // Longitude
-        val textView2 = findViewById<TextView>(R.id.text_view2)
-        val str2 = "Longtude:" + location.getLongitude()
-        textView2.text = str2
-
-        var realm = Realm.getDefaultInstance()
-
+//
+//        // Latitude
+//        val textView1 = findViewById<TextView>(R.id.text_view1)
+//        val str1 = "Latitude:" + location.getLatitude()
+//        textView1.text = str1
+//
+//        // Longitude
+//        val textView2 = findViewById<TextView>(R.id.text_view2)
+//        val str2 = "Longtude:" + location.getLongitude()
+//        textView2.text = str2
 
         // 通知の設定
         val builder = Notification.Builder(this).apply {
@@ -281,6 +315,11 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
      */
     override fun onProviderDisabled(provider: String) {
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 
 
