@@ -83,31 +83,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:text="@string/noticerange"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <RadioButton
-            android:id="@+id/range1"
+            android:id="@+id/range50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/range50" />
 
         <RadioButton
-            android:id="@+id/range2"
+            android:id="@+id/range100"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/range100" />
 
         <RadioButton
-            android:id="@+id/range3"
+            android:id="@+id/range200"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/range200" />
@@ -181,5 +182,25 @@
         android:text="場所を追加"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rangeText"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="90dp"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:text="@string/meter"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/rangeText"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
