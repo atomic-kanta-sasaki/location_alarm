@@ -13,8 +13,6 @@ import android.location.LocationProvider
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -33,7 +31,6 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_maps.*
-import kotlinx.android.synthetic.main.activity_schedule_edit.*
 
 class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, OnMarkerClickListener, OnMapClickListener {
 
@@ -61,14 +58,26 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         realm = Realm.getInstance(realmCofigration)
 
         var scheduler = realm.where(Schedule::class.java).findAll()
-        var latest_schedule: Long = scheduler.max("id").toString().toLong()
 
-        button3.setOnClickListener{
+        if(scheduler.size != 0 ) {
+            var latest_schedule: Long = scheduler.max("id").toString().toLong()
 
-            val intent = Intent(this, ScheduleEditActivity::class.java).putExtra("schedule_id", latest_schedule)
-            startActivity(intent)
+            goSchedule.setOnClickListener {
+
+                val intent = Intent(this, ScheduleEditActivity::class.java).putExtra(
+                    "schedule_id",
+                    latest_schedule
+                )
+                startActivity(intent)
+            }
         }
+        if(scheduler.size == 0 ) {
+            goSchedule.setOnClickListener {
 
+                val intent = Intent(this, MyScheduler::class.java)
+                startActivity(intent)
+            }
+        }
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -142,7 +151,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
                      realm = Realm.getInstance(realmCofigration)
 
                      // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-                     button2.setOnClickListener {
+                     saveAdress.setOnClickListener {
                              realm.executeTransaction { db: Realm ->
 
                                  var scheduler = realm.where(Schedule::class.java).findAll()

@@ -155,6 +155,8 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                     finish()
                 }
             }
+            val intent = Intent(this, MyScheduler::class.java)
+            startActivity(intent)
         }
 
         delete.setOnClickListener { view: View ->

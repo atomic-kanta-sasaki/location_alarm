@@ -10,11 +10,11 @@
     tools:context=".MapsActivity">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/saveAdress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:text="登録"
+        android:text="保存"
         map:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toTopOf="parent"
@@ -39,12 +39,11 @@
         tools:layout_conversion_absoluteWidth="168dp" />
 
 
-
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/goSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hoge"
+        android:text="予定編集"
         map:layout_constraintEnd_toEndOf="parent"
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toTopOf="parent"
