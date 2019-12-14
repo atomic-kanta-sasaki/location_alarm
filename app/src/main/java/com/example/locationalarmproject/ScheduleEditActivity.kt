@@ -39,11 +39,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
         val str = String.format(Locale.US, "%d/%d/%d", year2, month2+1, date2)
         date2Text.text = str
     }
-
-
-
-
-
+    
 
     fun describeContents(): Int {
         return 0
