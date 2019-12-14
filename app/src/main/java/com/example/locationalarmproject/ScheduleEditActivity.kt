@@ -49,6 +49,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
         return 0
     }
     private lateinit var realm: Realm
+    var latest_schedule = 0
     /**
      * 更新処理
      */
@@ -121,8 +122,18 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                 }
             }
 
-            val intent = Intent(this,MapsActivity::class.java)
-            startActivity(intent)
+            if(scheduleId == -1L) {
+
+                val intent = Intent(this,MapsActivity::class.java)
+                var scheduler = realm.where(Schedule::class.java)
+                var latest_schedule: Long = scheduler.max("id").toString().toLong()
+                startActivity(intent.putExtra("schedule_id", latest_schedule))
+
+            }else{
+                val intent = Intent(this,MapsActivity::class.java)
+                startActivity(intent.putExtra("schedule_id", scheduleId))
+            }
+
         }
 
         /**
