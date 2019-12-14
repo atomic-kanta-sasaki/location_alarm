@@ -39,6 +39,7 @@ class MyScheduler : AppCompatActivity() {
             .deleteRealmIfMigrationNeeded()
             .schemaVersion(0)
             .build()
+
         realm = Realm.getInstance(realmCofigration)
 
 
@@ -46,7 +47,6 @@ class MyScheduler : AppCompatActivity() {
         val schedules = realm.where<Schedule>().findAll()
         val adapter = ScheduleAdapter(schedules)
         list.adapter = adapter
-
         fab.setOnClickListener { view ->
             val intent = Intent(this, ScheduleEditActivity::class.java)
             startActivity(intent)

@@ -8,12 +8,9 @@ import android.icu.util.Calendar
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.view.WindowManager.LayoutParams.*
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startActivity
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.createObject
@@ -42,16 +39,13 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
         val str = String.format(Locale.US, "%d/%d/%d", year2, month2+1, date2)
         date2Text.text = str
     }
-
-
-
-
-
+    
 
     fun describeContents(): Int {
         return 0
     }
     private lateinit var realm: Realm
+    var latest_schedule = 0
     /**
      * 更新処理
      */
@@ -84,11 +78,60 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             dateText.setText(schedule?.stg)
             date2Text.setText(schedule?.str)
             detailEdit.setText(schedule?.detail)
+            address.setText((schedule?.latitudeAddress).toString())
+
             delete.visibility = View.VISIBLE
 
         }else{
             delete.visibility = View.INVISIBLE
         }
+
+        /**
+         *場所を追加する際に一旦DBにデータを保存する
+         */
+        addAdress.setOnClickListener{
+                view: View ->
+            when (scheduleId){
+                -1L -> {
+                    realm.executeTransaction { db: Realm ->
+                        val maxId = db.where<Schedule>().max("id")
+                        val nextId = (maxId?.toLong() ?: 0L)  + 1
+                        val schedule = db.createObject<Schedule>(nextId)
+
+                        schedule.title = titleEdit.text.toString()
+                        schedule.detail = detailEdit.text.toString()
+                        schedule.stg=dateText.text.toString()
+                        schedule.str = date2Text.text.toString()
+                    }
+                    finish()
+                }
+                else -> {
+                    realm.executeTransaction { db: Realm ->
+                        val schedule = db.where<Schedule>()
+                            .equalTo("id", scheduleId).findFirst()
+                        schedule?.title = titleEdit.text.toString()
+                        schedule?.detail = detailEdit.text.toString()
+                        schedule?.stg=dateText.text.toString()
+                        schedule?.str = date2Text.text.toString()
+                    }
+                    finish()
+                }
+            }
+
+            if(scheduleId == -1L) {
+
+                val intent = Intent(this,MapsActivity::class.java)
+                var scheduler = realm.where(Schedule::class.java)
+                var latest_schedule: Long = scheduler.max("id").toString().toLong()
+                startActivity(intent.putExtra("schedule_id", latest_schedule))
+
+            }else{
+                val intent = Intent(this,MapsActivity::class.java)
+                startActivity(intent.putExtra("schedule_id", scheduleId))
+            }
+
+        }
+
         /**
          * 保存タップ処理
          */
@@ -119,21 +162,19 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                     finish()
                 }
             }
+            val intent = Intent(this, MyScheduler::class.java)
+            startActivity(intent)
         }
 
-        delete.setOnClickListener{ view: View ->
-            realm.executeTransaction{db: Realm ->
-                db.where<Schedule>().equalTo("id",scheduleId)
+        delete.setOnClickListener { view: View ->
+            realm.executeTransaction { db: Realm ->
+                db.where<Schedule>().equalTo("id", scheduleId)
                     ?.findFirst()
                     ?.deleteFromRealm()
             }
             finish()
         }
 
-        addAdress.setOnClickListener {
-            val intent = Intent(this,MapsActivity::class.java)
-            startActivity(intent)
-        }
         /**
          * スリープ解除
          */

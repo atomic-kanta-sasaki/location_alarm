@@ -2,12 +2,13 @@ package com.example.locationalarmproject
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.util.*
+import com.google.android.gms.maps.model.LatLng
 
 open class Schedule  : RealmObject(){
     @PrimaryKey
     var id: Long? = 0
-    var address: String? =""
+    var latitudeAddress: Double? = 0.0
+    var longtudeAdress: Double? = 0.0
     var title: String? = ""
     var detail: String? = ""
     var stg: String?= ""

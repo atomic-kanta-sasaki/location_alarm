@@ -51,7 +51,7 @@ class AuthAction : AppCompatActivity() {
                             baseContext, "SignUp 成功",
                             Toast.LENGTH_SHORT
                         ).show()
-                        val intent = Intent(this,MapsActivity::class.java)
+                        val intent = Intent(this, MyScheduler::class.java)
                         startActivity(intent)
                     } else {
                         Toast.makeText(
@@ -88,7 +88,7 @@ class AuthAction : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        val intent = Intent(this, MapsActivity::class.java)
+                        val intent = Intent(this, MyScheduler::class.java)
                         startActivity(intent)
                     } else {
                         Toast.makeText(
