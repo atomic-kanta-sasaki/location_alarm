@@ -18,88 +18,120 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.auth_action.*
 
 class AuthAction : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var locationManager: LocationManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.auth_action)
+        var emailText: String = ""
+        var passText: String = ""
 
         auth = FirebaseAuth.getInstance()
 
         val buttonSignUp = findViewById<Button>(R.id.SiunUpButton)
         val buttonLogin = findViewById<Button>(R.id.LoginButton)
 
-
-
         buttonSignUp.setOnClickListener {
 
-            val emailEditText = findViewById<EditText>(R.id.emailEditText)
-            val emailText = emailEditText.text.toString()
+            if (findViewById<EditText>(R.id.emailEditText).text.toString() == "") {
+                Toast.makeText(
+                    baseContext, "メールの入力は必須です",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val emailEditText = findViewById<EditText>(R.id.emailEditText)
+                val emailText = emailEditText.text.toString()
+            }
 
-            val passEditText = findViewById<EditText>(R.id.passEditText)
-            val passText = passEditText.text.toString()
+            if (findViewById<EditText>(R.id.passEditText).text.toString() == "") {
+                Toast.makeText(
+                    baseContext, "パスワードの入力は必須です",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val passEditText = findViewById<EditText>(R.id.passEditText)
+                val passText = passEditText.text.toString()
+            }
 
-
-            auth.createUserWithEmailAndPassword(emailText, passText)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            baseContext, "SignUp 成功",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        val intent = Intent(this, MyScheduler::class.java)
-                        startActivity(intent)
-                    } else {
-                        Toast.makeText(
-                            baseContext, "SignUp 失敗",
-                            Toast.LENGTH_SHORT
-                        ).show()
+            if (emailText != "" || passText != "") {
+                auth.createUserWithEmailAndPassword(emailText, passText)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                baseContext, "SignUp 成功",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            val intent = Intent(this, MyScheduler::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(
+                                baseContext, "email または passwordが違います",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                }
+            } else {
+                Toast.makeText(
+                    baseContext, "入力項目が不足していましす",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    1000)
+                    1000
+                )
             } else {
                 locationStart()
 
             }
         }
 
-        buttonLogin.setOnClickListener {
+                buttonLogin.setOnClickListener {
+                    val emailEditText = findViewById<EditText>(R.id.emailEditText)
+                    val emailText = emailEditText.text.toString()
 
-            val emailEditText = findViewById<EditText>(R.id.emailEditText)
-            val emailText = emailEditText.text.toString()
+                    val passEditText = findViewById<EditText>(R.id.passEditText)
+                    val passText = passEditText.text.toString()
 
-            val passEditText = findViewById<EditText>(R.id.passEditText)
-            val passText = passEditText.text.toString()
+                    if(emailText != "" || passText != ""){
+                        auth.signInWithEmailAndPassword(emailText, passText)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(
+                                    baseContext, "Login 成功",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
-            auth.signInWithEmailAndPassword(emailText, passText)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            baseContext, "Login 成功",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                                val intent = Intent(this, MyScheduler::class.java)
+                                startActivity(intent)
+                            } else {
+                                Toast.makeText(
+                                    baseContext, "email または passwordが違います",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                        val intent = Intent(this, MyScheduler::class.java)
-                        startActivity(intent)
+                        }
                     } else {
                         Toast.makeText(
-                            baseContext, "Login 失敗",
+                            baseContext, "入力項目が不足していましす",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
 
                 }
 
-        }
     }
 
     override fun onRequestPermissionsResult(

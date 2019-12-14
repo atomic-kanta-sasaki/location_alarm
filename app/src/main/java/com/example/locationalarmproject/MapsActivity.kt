@@ -181,7 +181,24 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         var lastLatLng: LatLng? = null
 
 
-         var zoomSize = 14
+
+        val realmCofigration = RealmConfiguration.Builder()
+            .deleteRealmIfMigrationNeeded()
+            .schemaVersion(0)
+            .build()
+
+        realm = Realm.getInstance(realmCofigration)
+        var scheduleId = intent.getLongExtra("schedule_id", 0)
+
+        var scheduleDetail = realm.where(Schedule::class.java).equalTo("id", scheduleId).findFirst()
+        var scheduleLocationInfo = LatLng(scheduleDetail!!.latitudeAddress!!, scheduleDetail!!.longtudeAdress!!)
+        var markerOptions = MarkerOptions()
+        if(scheduleLocationInfo != LatLng(0.0, 0.0)) {
+            markerOptions.position(scheduleLocationInfo)
+            markerOptions.title("現在予定に登録されている場所です")
+            mMap.addMarker(markerOptions)
+        }
+
         var str = null;
              // tapされた位置の緯度経度
             mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
@@ -193,15 +210,6 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
                      val str: String = String.format(Locale.US, "%f, %f", tapLocation.latitude, tapLocation.longitude);
                      mMap.addMarker(MarkerOptions().position(location).title(str));
                      mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 14.toFloat()))
-
-                     val realmCofigration = RealmConfiguration.Builder()
-                         .deleteRealmIfMigrationNeeded()
-                         .schemaVersion(0)
-                         .build()
-
-                     realm = Realm.getInstance(realmCofigration)
-
-                     var scheduleId = intent.getLongExtra("schedule_id", 0)
 
                      // Obtain the SupportMapFragment and get notified when the map is ready to be used.
                      saveAdress.setOnClickListener {
