@@ -14,4 +14,5 @@
     <string name="range200">200</string>
     <string name="alarmperiod">通知期間</string>
     <string name="nami">~</string>
+    <string name="meter">m</string>
 </resources>
