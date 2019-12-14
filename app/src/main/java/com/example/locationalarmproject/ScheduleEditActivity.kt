@@ -81,7 +81,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             dateText.setText(schedule?.stg)
             date2Text.setText(schedule?.str)
             detailEdit.setText(schedule?.detail)
-            address.setText((schedule?.address))
+            address.setText((schedule?.latitudeAddress).toString())
 
             delete.visibility = View.VISIBLE
 

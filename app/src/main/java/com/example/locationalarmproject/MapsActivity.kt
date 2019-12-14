@@ -78,6 +78,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
                 startActivity(intent)
             }
         }
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -159,7 +160,8 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 
                                  val schedule = db.where<Schedule>()
                                      .equalTo("id", latest_schedule).findFirst()
-                                 schedule?.address = location.toString()
+                                 schedule?.latitudeAddress = location.latitude.toDouble()
+                                 schedule?.longtudeAdress = location.longitude.toDouble()
                              }
                          }
                  }
@@ -279,32 +281,58 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 //        val textView2 = findViewById<TextView>(R.id.text_view2)
 //        val str2 = "Longtude:" + location.getLongitude()
 //        textView2.text = str2
+        val realmCofigration = RealmConfiguration.Builder()
+            .deleteRealmIfMigrationNeeded()
+            .schemaVersion(0)
+            .build()
 
-        // dbから200mいないに自分がいるデータを取得しもしあればそのレコードを取得・通知をだす
+        realm = Realm.getInstance(realmCofigration)
+        var scheduler = realm.where(Schedule::class.java).findAll()
 
-        // 通知の設定
-        val builder = Notification.Builder(this).apply {
-            setSmallIcon(R.drawable.notification_template_icon_bg)// 必須
-            setContentTitle("目的地に到着しました")
-            setContentText("こうこうこういう予定です")
-            setAutoCancel(true)
-            setDefaults(Notification.DEFAULT_ALL)
+        if(scheduler.size != 0) {
+            Realm.getInstance(realmCofigration).use { realm ->
+                realm.where(Schedule::class.java).findAll().forEach {
+
+                    if(it.latitudeAddress != null) {
+                        var latdata: Double = it.latitudeAddress!!
+                        var longdata: Double = it.longtudeAdress!!
+                        var latNowPlace: Double = location.latitude
+                        var longNow = location.longitude
+
+                        val result = FloatArray(3, { i -> i.toFloat() }) // [0, 1, 2]
+
+                        Location.distanceBetween(latdata, longdata, latNowPlace, longNow, result)
+                        if (result[0] < 200) {
+                            // 通知の設定
+                            val builder = Notification.Builder(this).apply {
+                                setSmallIcon(R.drawable.notification_template_icon_bg)// 必須
+                                setContentTitle(it.title)
+                                setContentText(it.detail)
+                                setAutoCancel(true)
+                                setDefaults(Notification.DEFAULT_ALL)
+                            }
+
+                            // 親となるアクティビティを指定 マニフェストに追記が必要
+                            val stackBuilder = TaskStackBuilder.create(this)
+                            stackBuilder.addParentStack(MapsActivity::class.java)
+
+                            // 表示するアクティビティ
+                            stackBuilder.addNextIntent(Intent(this, MapsActivity::class.java))
+
+                            // 通知をタップした時に開くインテントを設定
+                            val pendingIntent =
+                                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+                            builder.setContentIntent(pendingIntent)
+
+                            // 通知を送信
+                            val notificationManager =
+                                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                            notificationManager.notify(0, builder.build())
+                        }
+                    }
+                }
+            }
         }
-
-        // 親となるアクティビティを指定 マニフェストに追記が必要
-        val stackBuilder = TaskStackBuilder.create(this)
-        stackBuilder.addParentStack(MapsActivity::class.java)
-
-        // 表示するアクティビティ
-        stackBuilder.addNextIntent(Intent(this, MapsActivity::class.java))
-
-        // 通知をタップした時に開くインテントを設定
-        val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-        builder.setContentIntent(pendingIntent)
-
-        // 通知を送信
-        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(0, builder.build())
 
     }
 
