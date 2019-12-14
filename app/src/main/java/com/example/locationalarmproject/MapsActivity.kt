@@ -62,6 +62,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         var scheduler = realm.where(Schedule::class.java).findAll()
 //
         var scheduleId = intent.getLongExtra("schedule_id", 0)
+
         /**
          * これより下は通知を出す処理
          * これを追加しないと当日移動できずに通知を出す処理が発火しない
@@ -80,7 +81,7 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 //                        val result = FloatArray(3, { i -> i.toFloat() }) // [0, 1, 2]
 //
 //                        Location.distanceBetween(latdata, longdata, latNowPlace, longNow, result)
-//                        if (abs(result[0]) < 200) {
+//                        if (abs(result[0]) < 10000) {
 //                            // 通知の設定
 //                            val builder = Notification.Builder(this).apply {
 //                                setSmallIcon(R.drawable.notification_template_icon_bg)// 必須
@@ -111,20 +112,9 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
 //                }
 //            }
 //        }
-//        val realmCofigration = RealmConfiguration.Builder()
-//            .deleteRealmIfMigrationNeeded()
-//            .schemaVersion(0)
-//            .build()
-//
-//        realm = Realm.getInstance(realmCofigration)
-//
-//        var scheduler = realm.where(Schedule::class.java).findAll()
 
         if(scheduler.size != 0 ) {
-            var latest_schedule: Long = scheduler.max("id").toString().toLong()
-
             goSchedule.setOnClickListener {
-
                 val intent = Intent(this, ScheduleEditActivity::class.java).putExtra(
                     "schedule_id",
                     scheduleId
@@ -134,7 +124,6 @@ class MapsActivity : AppCompatActivity(), LocationListener,OnMapReadyCallback, O
         }
         if(scheduler.size == 0 ) {
             goSchedule.setOnClickListener {
-
                 val intent = Intent(this, MyScheduler::class.java)
                 startActivity(intent)
             }

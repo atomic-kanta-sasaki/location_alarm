@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager.LayoutParams.*
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -39,7 +41,6 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
         val str = String.format(Locale.US, "%d/%d/%d", year2, month2+1, date2)
         date2Text.text = str
     }
-    
 
     fun describeContents(): Int {
         return 0
@@ -58,6 +59,23 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             .build()
 
         realm = Realm.getInstance(realmConfigration)
+        /**
+         * ラジオボタン処理
+         */
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            rangeText.text = findViewById<RadioButton>(checkedId).text
+
+            /**
+             * 通知範囲処理分け
+             */
+            when (findViewById<RadioButton>(checkedId)) {
+                range50 -> {}
+                range100 -> {}
+                range200 -> {}
+            }
+
+        }
+
 
         dateText.setOnClickListener{
             val dialog = TimeAlertDialog.DatePickerFragment()
@@ -79,7 +97,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
             date2Text.setText(schedule?.str)
             detailEdit.setText(schedule?.detail)
             address.setText((schedule?.latitudeAddress).toString())
-
+            rangeText.setText(schedule?.range)
             delete.visibility = View.VISIBLE
 
         }else{
@@ -102,6 +120,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                         schedule.detail = detailEdit.text.toString()
                         schedule.stg=dateText.text.toString()
                         schedule.str = date2Text.text.toString()
+                        schedule?.range = rangeText.text.toString()
                     }
                     finish()
                 }
@@ -113,6 +132,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                         schedule?.detail = detailEdit.text.toString()
                         schedule?.stg=dateText.text.toString()
                         schedule?.str = date2Text.text.toString()
+                        schedule?.range = rangeText.text.toString()
                     }
                     finish()
                 }
@@ -147,6 +167,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                         schedule.detail = detailEdit.text.toString()
                         schedule.stg=dateText.text.toString()
                         schedule.str = date2Text.text.toString()
+                        schedule.range = rangeText.text.toString()
                     }
                     finish()
                 }
@@ -158,6 +179,7 @@ class ScheduleEditActivity : AppCompatActivity() , TimeAlertDialog.Listener
                         schedule?.detail = detailEdit.text.toString()
                         schedule?.stg=dateText.text.toString()
                         schedule?.str = date2Text.text.toString()
+                        schedule?.range = rangeText.text.toString()
                     }
                     finish()
                 }
