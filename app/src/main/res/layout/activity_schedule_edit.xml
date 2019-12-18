@@ -27,6 +27,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
         android:text="@string/detail"
+        android:textColor="@color/colorAccent"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
@@ -54,6 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
         android:text="@string/address"
+        android:textColor="@color/colorAccent"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailEdit" />
@@ -85,6 +87,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="90dp"
         android:text="@string/noticerange"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 
@@ -123,6 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:text="@string/alarmperiod"
+        android:textColor="@color/colorAccent"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +139,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:background="@color/common_google_signin_btn_text_light_disabled"
+        android:background="@color/design_green"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +151,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:background="@color/common_google_signin_btn_text_light_disabled"
+        android:background="@color/design_green"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -159,7 +164,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/common_google_signin_btn_text_light_disabled"
+        android:background="@color/design_green"
         android:textAlignment="textStart"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,7 +196,7 @@
         android:id="@+id/rangeText"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="90dp"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -203,7 +208,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
         android:text="@string/meter"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/rangeText"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 

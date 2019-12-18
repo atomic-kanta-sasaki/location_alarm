@@ -47,6 +47,7 @@
         android:text="予定編集に戻る"
         android:textSize="18sp"
         map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toEndOf="@+id/saveAdress"
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteY="16dp" />
