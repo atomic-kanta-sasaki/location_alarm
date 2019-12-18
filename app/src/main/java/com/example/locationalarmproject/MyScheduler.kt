@@ -72,7 +72,7 @@ class MyScheduler : AppCompatActivity() {
 
     /*
     検索ボックスの表示
-     */
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.search, menu)
@@ -107,4 +107,6 @@ class MyScheduler : AppCompatActivity() {
 
         return super.onCreateOptionsMenu(menu)
     }
+    
+     */
 }
