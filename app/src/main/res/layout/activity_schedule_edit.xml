@@ -90,7 +90,7 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
@@ -99,19 +99,22 @@
             android:id="@+id/range50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/range50" />
+            android:text="@string/range50"
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/range100"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/range100" />
+            android:text="@string/range100"
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/range200"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/range200" />
+            android:text="@string/range200"
+            android:textSize="24sp" />
     </RadioGroup>
 
     <TextView

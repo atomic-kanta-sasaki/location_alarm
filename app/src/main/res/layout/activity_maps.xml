@@ -12,9 +12,10 @@
     <Button
         android:id="@+id/saveAdress"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginStart="28dp"
         android:text="保存"
+        android:textSize="18sp"
         map:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toTopOf="parent"
@@ -42,8 +43,9 @@
     <Button
         android:id="@+id/goSchedule"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="予定編集"
+        android:layout_height="70dp"
+        android:text="予定編集に戻る"
+        android:textSize="18sp"
         map:layout_constraintEnd_toEndOf="parent"
         tools:layout_constraintStart_toStartOf="parent"
         tools:layout_constraintTop_toTopOf="parent"
