@@ -12,3 +12,4 @@ team SOM
  AndroidStudioでGradeで動かしています.
  FireBaseAuthActionとGCPのGoogleMapAPIを使用しています.
  アクセスキーは各自で設定してください.ここに上がっているソースコード上にあるアクセスキーはきってあるので動きません.
+
